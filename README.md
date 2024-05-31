@@ -1,3 +1,10 @@
+# Table of Contents
+- [Setting up Ollama](#set-up-and-run-ollama-in-python)
+- [Experiment 1](#experiment-1---chat-with-ollama)
+- [Experiment 2](#experiment-2---using-two-agents-for-sequential-dialogue)
+- [Experiment 3](#experiment-3---multi-agents-for-non-sequential-responses)
+- [Experiment 4](#experiment-4---multi-agents-dialogue-with-dalle-image-generation)
+
 # Set Up and Run Ollama in Python
 
 ### 1. Create a virtual environment
@@ -70,7 +77,7 @@ Please verify the current market price on these sources or others for the most a
 ```
 ---
 
-# Experiment 2: Using Two Agents - Sequential Dialogue
+# Experiment 2 - Using Two Agents for Sequential Dialogue
 Agent Llama provides a response, and Agent Elif translates the response to a 5-year old
 
 ```bash
@@ -178,7 +185,7 @@ language! They're like the ultimate superheroes of robots!
 So, that's diffusion in a nutshell (or a robot shell)!
 ```
 
-# Experiment 3 - Multi Agents & Cross-referencing Responses
+# Experiment 3 - Multi Agents for Non Sequential Responses
 Now, We have four agents who are brainstorming for a new tv show. There's Agent Director, Agent Character, Agent Screenplay, Agent Producer.
 
 ```bash
@@ -388,7 +395,7 @@ characters to create a richer narrative.
 of the suggested weaknesses and areas for improvement, you can craft a compelling story that resonates with readers.
 ```
 
-# Experiment 4 - Multi Agents Dialogue + Dall-E Image Generation
+# Experiment 4 - Multi Agents Dialogue with Dalle Image Generation
 Now, We have four agents, similar to experiment 3, who are brainstorming for a new script. There's Agent Director, Agent Character, Agent Screenplay, Agent Producer. We have new addition to the team, a - graphic designer.
 
 ```bash
