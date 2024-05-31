@@ -630,6 +630,17 @@ compromises or realizations as they learn from each other?
 
 Agent DALL-E Response
 
-![cover photo of the theme](https://oaidalleapiprodscus.blob.core.windows.net/private/org-LOwVaJbbPddAwzfYWSYHzTPa/user-jZiZe98rm1Q1DoBh6vc3atTH/img-mQPEGtgjeYa344U49C3a5JLZ.png?st=2024-05-31T02%3A36%3A55Z&se=2024-05-31T04%3A36%3A55Z&sp=r&sv=2023-11-03&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2024-05-30T23%3A26%3A06Z&ske=2024-05-31T23%3A26%3A06Z&sks=b&skv=2023-11-03&sig=R6YNOQamf7UG9JpKbf5qTok6zTIENiSTmXFnYN9snpk%3D)
+![show poster-1](https://oaidalleapiprodscus.blob.core.windows.net/private/org-LOwVaJbbPddAwzfYWSYHzTPa/user-jZiZe98rm1Q1DoBh6vc3atTH/img-mQPEGtgjeYa344U49C3a5JLZ.png?st=2024-05-31T02%3A36%3A55Z&se=2024-05-31T04%3A36%3A55Z&sp=r&sv=2023-11-03&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2024-05-30T23%3A26%3A06Z&ske=2024-05-31T23%3A26%3A06Z&sks=b&skv=2023-11-03&sig=R6YNOQamf7UG9JpKbf5qTok6zTIENiSTmXFnYN9snpk%3D)
 
+![show poster-2](https://oaidalleapiprodscus.blob.core.windows.net/private/org-LOwVaJbbPddAwzfYWSYHzTPa/user-jZiZe98rm1Q1DoBh6vc3atTH/img-hF5fkixGS91y3OwGPIPgGGRh.png?st=2024-05-31T04%3A11%3A14Z&se=2024-05-31T06%3A11%3A14Z&sp=r&sv=2023-11-03&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2024-05-30T23%3A28%3A29Z&ske=2024-05-31T23%3A28%3A29Z&sks=b&skv=2023-11-03&sig=sNyxs%2BtAHWZc/%2BBvVJvMVgYe7oKnow6ONaHv%2Bz3JDig%3D)
 
+Evals
+```plaintext
+Total time taken for script execution: 95.52415204048157 seconds
+Latency and Response Times:
+Average Latency for Ollama: 18355.44 ms
+Average Latency for OpenAI: 18208.16 ms
+
+Error Rates and Reliability:
+Error Rate for Ollama: 0.00%
+Error Rate for OpenAI: 0.00%
