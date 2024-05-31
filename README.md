@@ -70,7 +70,7 @@ Please verify the current market price on these sources or others for the most a
 ```
 ---
 
-# Experiment 2 - Using Two Agents
+# Experiment 2: Using Two Agents - Sequential Dialogue
 Agent Llama provides a response, and Agent Elif translates the response to a 5-year old
 
 ```bash
@@ -176,3 +176,213 @@ Some really smart Transformers called BERT and RoBERTa use this magic technique 
 language! They're like the ultimate superheroes of robots!
 
 So, that's diffusion in a nutshell (or a robot shell)!
+```
+
+# Experiment 3 - Multi Agents & Cross-referencing Responses
+Now, We have four agents who are brainstorming for a new tv show. There's Agent Director, Agent Character, Agent Screenplay, Agent Producer.
+
+```bash
+import ollama
+
+def agent_story(prompt):
+    """Generates a story idea based on the input prompt."""
+    try:
+        response = ollama.generate(model='llama3', prompt=f"Generate a story idea about: {prompt}")
+        return response['response']
+    except Exception as e:
+        return f"An error occurred in agent_story: {e}"
+
+def agent_character(story_idea):
+    """Develops characters based on the story idea."""
+    try:
+        response = ollama.generate(model='llama3', prompt=f"Create detailed character backgrounds for the story: {story_idea}")
+        return response['response']
+    except Exception as e:
+        return f"An error occurred in agent_character: {e}"
+
+def agent_dialogue(story_idea):
+    """Writes dialogues or short paragraphs based on the storyline."""
+    try:
+        response = ollama.generate(model='llama3', prompt=f"Write a short paragraph or dialogue for the story: {story_idea}")
+        return response['response']
+    except Exception as e:
+        return f"An error occurred in agent_dialogue: {e}"
+
+def agent_producer(story, characters, dialogue):
+    """Compiles responses from all agents and provides a critique or appreciation."""
+    unified_response = f"Story Idea: {story}\n\nCharacters: {characters}\n\nDialogue: {dialogue}"
+    try:
+        critique_prompt = f"Provide a critique or appreciation for the following story idea and its elements:\n\n{unified_response}"
+        response = ollama.generate(model='llama3', prompt=critique_prompt)
+        return response['response']
+    except Exception as e:
+        return f"An error occurred in agent_producer: {e}"
+
+if __name__ == "__main__":
+    user_prompt = input("Enter a theme or idea for the story: ")
+    
+    # Generate story idea
+    story_idea = agent_story(user_prompt)
+    print(f"Agent Story Response:\n{story_idea}\n")
+    
+    # Generate character backgrounds
+    character_backgrounds = agent_character(story_idea)
+    print(f"Agent Character Response:\n{character_backgrounds}\n")
+    
+    # Generate dialogues or short paragraphs
+    dialogue = agent_dialogue(story_idea)
+    print(f"Agent Dialogue Response:\n{dialogue}\n")
+    
+    # Producer's critique or appreciation
+    producer_response = agent_producer(story_idea, character_backgrounds, dialogue)
+    print(f"Agent Producer Response:\n{producer_response}\n")
+```
+
+### Example Output: Prompt
+Enter Prompt: Toil of Modern Men balancing Traditional Men and Modern Women in 21st Century
+
+Agent Director Response:
+```plaintext
+What an intriguing concept! Here's a potential story idea:
+
+**Title:** "The Weight of Progress"
+
+**Premise:** Meet Jack, a well-intentioned but self-proclaimed "feminist man" who finds himself struggling to balance
+his passion for women's rights with the weight of societal expectations, family pressures, and his own personal doubts.
+As he navigates this internal conflict, Jack must confront the complexities of being a male ally in a movement that often questions his motives.
+
+**Storyline:** Jack's journey begins when his girlfriend, Sarah, a prominent feminist activist, asks him to join her at a
+conference on gender equality. Initially excited to support her cause, Jack soon discovers that many attendees view him with
+skepticism, perceiving him as an outsider trying to co-opt the movement for his own ego boost.
+
+As he grapples with these criticisms, Jack's relationships with Sarah and their friends begin to fray. His family, particularly
+his traditionalist father, disapprove of his involvement in feminism, seeing it as a threat to "traditional" values. Meanwhile,
+Jack's own insecurities surface: Is he truly committed to the cause, or is he just trying to impress Sarah?
+
+As tensions escalate, Jack finds himself torn between his desire to be a supportive partner and his need to prove himself as a
+genuine ally. He begins to question whether his involvement in feminism is genuinely empowering women or simply perpetuating paternalistic attitudes.
+
+**Themes:**
+
+1. The burden of being a male ally: How can men support the feminist movement without co-opting its message or
+undermining women's agency?
+2. The complexities of intersectionality: Jack's struggles highlight the need for nuanced understanding of how different forms of
+oppression intersect and impact individual experiences.
+3. Self-reflection and personal growth: Through his journey, Jack must confront his own biases, insecurities, and privileges to
+become a more effective ally.
+
+**Genre:** Contemporary drama/romance
+
+**Tone:** Thought-provoking, introspective, and emotionally charged, with a touch of humor and wit to balance the weighty themes.
+
+This story idea explores the challenges faced by male allies in the feminist movement, encouraging readers to reflect on their
+own roles in promoting gender equality. How do you think Jack's character development would unfold?
+```
+
+Agent Character Response:
+```plaintext
+What a fascinating premise! Let me help you develop detailed character backgrounds for Jack:
+
+**Name:** Jackson "Jack" Thompson
+
+**Age:** 28
+
+**Occupation:** Marketing specialist, part-time freelance writer
+
+**Personality:**
+
+1. **Well-intentioned**: Jack genuinely wants to support the feminist movement and women's rights.
+2. **Eager to learn**: He's curious about social justice issues and willing to listen and educate himself.
+3. **Insecure**: Jack struggles with self-doubt, seeking validation from others (especially Sarah) and uncertain of his role in the movement.
+4. **Passionate**: He's enthusiastic about causes he believes in and enjoys debating topics that spark his interest.
+5. **Self-deprecating**: Jack often underestimates himself, thinking that others are more qualified or knowledgeable than him.
+
+**Background:**
+
+1. **Upbringing:** Jack grew up in a traditionalist family where gender roles were strictly defined. His father, a conservative
+businessman, valued "masculinity" and expected men to be breadwinners.
+2. **Education:** Jack earned a degree in marketing from a local university. Although he excelled academically, his passion for
+social justice issues wasn't fully explored until later in life.
+3. **Relationships:**
+        * **Sarah**: His girlfriend of three years, Sarah is a prominent feminist activist and the driving force behind his
+involvement in the movement. Jack admires her conviction and strength.
+        * **Family:** Jack's family is skeptical of his involvement in feminism. His father, in particular, disapproves,
+viewing it as a threat to traditional values.
+4. **Values:**
+        * **Empathy**: Jack believes in understanding others' perspectives, even if he doesn't agree with them.
+        * **Equality**: He advocates for equal rights and opportunities for all individuals, regardless of gender.
+
+**Goals:**
+
+1. **Prove himself**: Jack wants to demonstrate his commitment to the feminist movement and prove that he's not just a "token" male ally.
+2. **Support Sarah**: He hopes to be a reliable partner for Sarah, helping her in her activism and showing appreciation for her passions.
+3. **Self-improvement**: Jack aims to become a more effective ally by educating himself on intersectionality and the complexities of gender equality.
+
+**Conflict:**
+
+1. **Internal struggles**: Jack's insecurities about his role in the movement and his desire to prove himself lead to internal conflicts.
+2. **External pressures**: He faces skepticism from some feminist activists, who view him as an outsider trying to co-opt their message.
+His family's disapproval also adds to the pressure.
+
+By understanding Jack's character background, we can better appreciate the challenges he faces in "The Weight of Progress." As
+he navigates these complexities, he'll have opportunities for growth, self-reflection, and personal development.
+```
+
+Agent Screenplay Response:
+```plaintext
+Here's a potential short paragraph or dialogue for the story:
+
+**Scene:** Jack and Sarah are having dinner at her family's home, where they're hosting a gathering of feminist activists.
+As they mingle with friends and acquaintances, Jack notices the skeptical glances and whispered conversations.
+
+"Hey, what's going on?" Jack asks Sarah, feeling uneasy.
+
+Sarah looks around the room before answering quietly, "They think you're just trying to impress me or gain brownie points for being a 'good guy.'"
+
+Jack's eyes widen in surprise. "That's not fair! I'm here because I genuinely care about this cause."
+
+Sarah places a reassuring hand on his arm. "I know that, Jack. But sometimes, men's involvement can be seen as tokenistic.
+It's like, what are you doing to actively dismantle the patriarchy, instead of just showing up and saying 'Hey, look at me, I'm a feminist!'"
+
+Jack takes a deep breath, processing her words. "You're right. I need to prove myself, not just my intentions."
+
+**Themes:** This scene highlights the tension between Jack's genuine desire to support Sarah and his recognition that his involvement
+is not without its challenges. It also touches on the theme of intersectionality, as Sarah cautions Jack about the importance of taking
+concrete actions rather than just paying lip service.
+
+This dialogue sets the stage for Jack's character development, as he grapples with his own doubts, insecurities, and privileges. The
+conversation also foreshadows the conflicts he'll face as he navigates the complexities of being a male ally in the feminist movement.
+```
+
+Agent Producer Response:
+```plaintext
+What an intriguing story idea! I appreciate the thought-provoking themes and the character development potential. Here's my critique:
+
+**Strengths:**
+
+1. **Timely and relevant**: The concept of "The Weight of Progress" is timely, given the current social climate and the importance of
+intersectionality in social justice movements.
+2. **Complex character**: Jack's character has depth, with both positive traits (well-intentioned, eager to learn) and flaws
+(insecure, self-doubting). This complexity makes him relatable and allows for growth throughout the story.
+3. **Thought-provoking themes**: The exploration of intersectionality, paternalistic attitudes, and the burden of being a male ally in
+the feminist movement will likely spark important discussions among readers.
+
+**Weaknesses:**
+
+1. **Overemphasis on Jack's internal struggles**: While it's essential to explore Jack's character development, the story might benefit
+from a more balanced approach between his inner conflicts and the external challenges he faces.
+2. **Potential for didacticism**: The themes and messages in this story could become heavy-handed or didactic if not handled carefully.
+It's crucial to strike a balance between conveying important ideas and allowing readers to draw their own conclusions.
+
+**Suggestions:**
+
+1. **Introduce conflicts earlier**: To create more tension, consider introducing external conflicts (e.g., disagreements with Sarah or
+her friends, family disapproval) earlier in the story.
+2. **Vary pacing and tone**: Balance the introspective moments with more action-oriented scenes to maintain a engaging pace.
+3. **Explore the relationships between characters**: Delve deeper into Jack's relationships with Sarah, his family, and other
+characters to create a richer narrative.
+
+**Overall:**
+
+"The Weight of Progress" has immense potential for character growth, thematic exploration, and social commentary. By addressing some
+of the suggested weaknesses and areas for improvement, you can craft a compelling story that resonates with readers.
