@@ -386,3 +386,243 @@ characters to create a richer narrative.
 
 "The Weight of Progress" has immense potential for character growth, thematic exploration, and social commentary. By addressing some
 of the suggested weaknesses and areas for improvement, you can craft a compelling story that resonates with readers.
+```
+
+# Experiment 4 - Multi Agents Dialogue + Dall-E Image Generation
+Now, We have four agents, similar to experiment 3, who are brainstorming for a new script. There's Agent Director, Agent Character, Agent Screenplay, Agent Producer. We have new addition to the team, a - graphic designer.
+
+```bash
+import time
+import ollama
+from openai import OpenAI
+from textwrap import shorten  # Importing from the standard library
+
+# Set your OpenAI API key
+client = OpenAI(api_key='sk-proj-mDga...')
+
+def agent_story(prompt):
+    """Generates a story idea based on the input prompt."""
+    try:
+        response = ollama.generate(model='llama3', prompt=f"Generate a story idea about: {prompt}")
+        return response['response']
+    except Exception as e:
+        return f"An error occurred in agent_story: {e}"
+
+def agent_character(story_idea):
+    """Develops characters based on the story idea."""
+    try:
+        response = ollama.generate(model='llama3', prompt=f"Create detailed character backgrounds for the story: {story_idea}")
+        return response['response']
+    except Exception as e:
+        return f"An error occurred in agent_character: {e}"
+
+def agent_dialogue(story_idea):
+    """Writes dialogues or short paragraphs based on the storyline."""
+    try:
+        response = ollama.generate(model='llama3', prompt=f"Write a short paragraph or dialogue for the story: {story_idea}")
+        return response['response']
+    except Exception as e:
+        return f"An error occurred in agent_dialogue: {e}"
+
+def agent_producer(story, characters, dialogue):
+    """Compiles responses from all agents and provides a critique or appreciation."""
+    unified_response = f"Story Idea: {story}\n\nCharacters: {characters}\n\nDialogue: {dialogue}"
+    try:
+        critique_prompt = f"Provide a critique or appreciation for the following story idea and its elements:\n\n{unified_response}"
+        response = ollama.generate(model='llama3', prompt=critique_prompt)
+        return response['response'], unified_response
+    except Exception as e:
+        return f"An error occurred in agent_producer: {e}", unified_response
+
+def agent_dalle(unified_response):
+    """Generates a cover picture for the story using DALL-E."""
+    try:
+        # Shorten the prompt to fit within the allowed length
+        short_prompt = shorten(f"Create a cover picture for the following movie: {unified_response}", width=1000, placeholder="...")
+        response = client.images.generate(
+            model="dall-e-3",
+            prompt=short_prompt,
+            size="1024x1024",
+            quality="standard",
+            n=1,
+        )
+        return response.data[0].url
+    except Exception as e:
+        return f"An error occurred in agent_dalle: {e}"
+
+if __name__ == "__main__":
+    start_time = time.time()
+    
+    user_prompt = input("Enter a theme or idea for the story: ")
+    
+    # Generate story idea
+    story_idea = agent_story(user_prompt)
+    print(f"Agent Story Response:\n{story_idea}\n")
+    
+    # Generate character backgrounds
+    character_backgrounds = agent_character(story_idea)
+    print(f"Agent Character Response:\n{character_backgrounds}\n")
+    
+    # Generate dialogues or short paragraphs
+    dialogue = agent_dialogue(story_idea)
+    print(f"Agent Dialogue Response:\n{dialogue}\n")
+    
+    # Producer's critique or appreciation
+    producer_response, unified_response = agent_producer(story_idea, character_backgrounds, dialogue)
+    print(f"Agent Producer Response:\n{producer_response}\n")
+    
+    # Generate a cover picture using DALL-E
+    cover_image_url = agent_dalle(unified_response)
+    print(f"Agent DALL-E Response (cover image URL): {cover_image_url}\n")
+    
+    end_time = time.time()
+    total_time_taken = end_time - start_time
+    print(f"Total time taken for script execution: {total_time_taken} seconds")
+```
+
+### Example Output: Experiment 4 (Time Taken: 140 sec)
+
+Enter a theme or idea for the story: Sports balls (tennis balls, table-tennis ball, football, cricket ball, golf ball, shuttle badminton cork, etc) in heated debate who's the best with a funny take on their size, prominence and each of their lords such as the target audience. Suddenly, the pickle ball enters, the noisy little sneak
+
+Agent Story Response:
+```plaintext
+What a delightful idea! Here's a story concept:
+
+THE GREAT BALL DEBATE
+
+In a world where sports balls are alive, they've grown tired of being compared to one another. "Who's the best?" they ask themselves.
+A heated debate ensues among the tennis ball, table-tennis ball, football, cricket ball, golf ball, and shuttle badminton cork.
+
+Each ball has its own unique perspective on its greatness. The tennis ball boasts about its speed and agility, claiming it's the most
+thrilling to watch. The table-tennis ball counters with its quick reflexes and precision hits. The football ball swaggers about its size
+and popularity among the masses. The cricket ball proudly declares its strategic value in the game of wickets. The golf ball emphasizes
+its precision and control, stating that only a select few can truly appreciate its art.
+
+Just as it seems like no one will concede, a tiny, noisy intruder bursts onto the scene: the pickle ball! This miniature marvel has been
+listening in on their discussion and couldn't help but chime in. "Hey, what about me? I'm the most versatile! I can be played with paddles
+or rackets, and my small size makes me easy to maneuver!"
+
+The other balls stare at each other in shock, unsure how to react to this tiny upstart. The tennis ball rolls its eyes (literally).
+"You think you're so special just because you're small? Please, we've been entertaining humans for centuries!" The table-tennis ball snickers.
+"You're not even a full-sized ball, what do you know about greatness?"
+
+The pickle ball, undeterred, starts rattling off its own impressive stats: "I'm the fastest-growing sport out there! I've got a huge following
+among seniors and families... And have you seen my awesome paddle designs?!" The other balls snicker at the pickle ball's enthusiasm,
+but it refuses to back down.
+
+As the debate rages on, each ball starts to realize that maybe, just maybe, they're all special in their own way. They begin to appreciate
+the unique aspects of their sport and the joy they bring to players and spectators alike.
+
+In the end, they decide to call a truce and celebrate their diversity as sports balls. After all, who says only one ball can be the best?
+
+What do you think? Would you like me to expand on the story or explore other ideas related to sports balls?
+```
+
+Agent Character Response:
+```plaintext
+
+What a delightful idea indeed! I'd be happy to help create detailed character backgrounds for each of the sports balls involved in The
+Great Ball Debate. Here are some suggestions:
+
+TENNIS BALL
+
+- Name: Victor
+- Personality: Confident, charismatic, and a bit self-absorbed. Victor loves being the center of attention and enjoys boasting about
+  his speed and agility.
+- Backstory: Victor has been around for as long as tennis itself, so he's used to being treated like royalty. He's proud of his heritage
+  and feels that no other ball can match his level of excitement and skill.
+- Quirks: Victor has a tendency to get overly dramatic when discussing his own greatness, which can be annoying to the other balls.
+
+TABLE TENNIS BALL
+
+- Name: Ling
+- Personality: Quick-witted, clever, and a bit mischievous. Ling loves to play with words and often uses her speed and agility to outmaneuver opponents.
+- Backstory: Ling has a rich history in Asia, where table tennis originated. She's proud of the strategic games she's been a part of
+  and feels that no other ball can match her level of precision and control.
+- Quirks: Ling has a habit of making wry remarks about Victor's boasting, which can sometimes put Victor on edge.
+
+FOOTBALL (SOCCER)
+
+- Name: Bruno
+- Personality: Boisterous, confident, and a bit cocky. Bruno loves being the star of the show and enjoying the adoration of fans.
+- Backstory: Bruno has been involved in some of the most iconic matches in history, including World Cup finals. He's proud of his size
+  and popularity among football enthusiasts.
+- Quirks: Bruno has a tendency to get carried away with his own hype, which can make him come across as arrogant.
+
+CRICKET BALL
+
+- Name: Winston
+- Personality: Stoic, wise, and analytical. Winston loves being part of the strategic game of cricket, where every move counts.
+- Backstory: Winston has been involved in some of the most thrilling matches in history, including Test matches and One-Day Internationals.
+  He's proud of his ability to bring teams together through skillful bowling and batting.
+- Quirks: Winston can be a bit too serious at times, which might make him come across as dull to the other balls.
+
+GOLF BALL
+
+- Name: Felix
+- Personality: Precise, calculated, and a bit perfectionist. Felix loves being part of the precise game of golf, where every shot counts.
+- Backstory: Felix has been involved in some of the most iconic golf tournaments in history, including majors like the Masters.
+  He's proud of his ability to navigate challenging courses with ease.
+- Quirks: Felix can be a bit too focused on his own game, which might make him come across as aloof or distant.
+
+PICKLE BALL
+
+- Name: Piper
+- Personality: Energetic, playful, and enthusiastic. Piper loves being part of the fast-paced and dynamic game of pickleball.
+- Backstory: Piper has been involved in some of the most exciting matches in recent years, with its rapid growth in popularity among
+  seniors and families. She's proud of her ability to bring people together through fun and accessible play.
+- Quirks: Piper can be a bit too excitable at times, which might make her come across as overwhelming or exhausting.
+
+These character backgrounds should provide a good starting point for exploring the personalities, motivations, and quirks of each
+sports ball involved in The Great Ball Debate. Do you have any specific questions about these characters or would you like me to suggest
+further developments?
+```
+Agent Dialogue Response:
+```plaintext
+
+I love this idea!
+HERE'S A SHORT PARAGRAPH THAT ADDS SOME HUMOR TO THE DEBATE:
+
+"I'm not small, I'm compact!" the pickle ball insisted. "And don't even get me started on my bounce - it's like a mini trampoline in
+your hand!" The tennis ball chuckled. "Well, you may be fun, little guy, but have you seen my serves? I can hit 125 miles per hour and
+still look stylish doing it!" The pickle ball bristled at the jab. "Oh yeah? Well, I may not be as fast, but I'm way more agile - I can dodge
+those pesky racquet strings like a ninja!"
+
+This dialogue shows how the different balls are all trying to one-up each other, while also highlighting their unique qualities. The pickle
+ball's enthusiasm and determination add a fun and relatable element to the story.
+
+What do you think? Should we explore more of the debate between the balls, or move on to another aspect of the story?
+```
+
+Agent Producer Response:
+```plaintext
+I absolutely love this story idea! It's a delightful and humorous take on the world of sports balls. The concept of each ball having its
+own unique perspective on its greatness is genius. I can already imagine the hilarious debates and banter between the balls.
+
+THOUGHTS ON CHARACTERS AND STORY
+
+* Victor, the tennis ball, seems like a natural showman, always trying to be the center of attention.
+* Ling, the table-tennis ball, appears to be quick-witted and clever, using her speed and agility to outmaneuver opponents.
+* Bruno, the football (soccer) ball, comes across as boisterous and confident, loving being the star of the show.
+* Winston, the cricket ball, seems wise and analytical, valuing strategy and skill over flashiness.
+* Felix, the golf ball, appears precise and calculated, always focused on his own game.
+* Piper, the pickle ball, is energetic, playful, and enthusiastic, bringing a fun and accessible vibe to the story.
+
+These character backgrounds are fantastic! I think they'll add depth and humor to the story. The quirks you've included also provide
+great opportunities for comedic moments and character growth.
+
+The dialogue snippet you provided is hilarious! The banter between Victor and Piper is especially entertaining. It's great to see how
+the different balls interact with each other, showcasing their unique personalities and traits.
+
+As for the story itself, I think it's off to a fantastic start. You've set up a fun premise that explores the importance of diversity
+and appreciation for one's own strengths. The Great Ball Debate has the potential to be a heartwarming and entertaining tale that will appeal to kids aged 8-12.
+
+What do you think about exploring more of the debate between the balls? Perhaps we could see some
+compromises or realizations as they learn from each other?
+```
+
+Agent DALL-E Response
+
+![cover photo of the theme](https://oaidalleapiprodscus.blob.core.windows.net/private/org-LOwVaJbbPddAwzfYWSYHzTPa/user-jZiZe98rm1Q1DoBh6vc3atTH/img-mQPEGtgjeYa344U49C3a5JLZ.png?st=2024-05-31T02%3A36%3A55Z&se=2024-05-31T04%3A36%3A55Z&sp=r&sv=2023-11-03&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2024-05-30T23%3A26%3A06Z&ske=2024-05-31T23%3A26%3A06Z&sks=b&skv=2023-11-03&sig=R6YNOQamf7UG9JpKbf5qTok6zTIENiSTmXFnYN9snpk%3D)
+
+
